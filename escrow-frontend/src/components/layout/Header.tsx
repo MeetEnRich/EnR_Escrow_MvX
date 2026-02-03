@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/out/react/account/useGetIsLoggedIn';
 import { useGetAccount } from '@multiversx/sdk-dapp/out/react/account/useGetAccount';
@@ -9,7 +9,6 @@ import './Header.css';
 
 export function Header() {
   const navigate = useNavigate();
-  const location = useLocation();
   const isLoggedIn = useGetIsLoggedIn();
   const { address, balance } = useGetAccount();
   const [showTokensModal, setShowTokensModal] = useState(false);
@@ -43,7 +42,7 @@ export function Header() {
     return (Number(bal) / 1e18).toFixed(2);
   };
 
-  const isOnDashboard = location.pathname === '/dashboard';
+
 
   return (
     <>

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks/account/useGetIsLoggedIn';
-import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account/useGetLoginInfo';
+import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/out/react/account/useGetIsLoggedIn';
+import { useGetLoginInfo } from '@multiversx/sdk-dapp/out/react/loginInfo/useGetLoginInfo';
 import { apiService } from '../services/api';
 import type { Offer, CreateOfferRequest } from '../types/offer';
 

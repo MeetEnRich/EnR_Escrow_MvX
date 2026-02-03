@@ -1,5 +1,5 @@
-import { useGetAccount } from '@multiversx/sdk-dapp/hooks/account/useGetAccount';
-import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks/account/useGetIsLoggedIn';
+import { useGetAccount } from '@multiversx/sdk-dapp/out/react/account/useGetAccount';
+import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/out/react/account/useGetIsLoggedIn';
 import { shortenAddress, formatAmount } from '../../utils/format';
 import './WalletInfo.css';
 

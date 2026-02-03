@@ -1,25 +1,34 @@
 import { useNavigate } from 'react-router-dom';
-import { ExtensionLoginButton, WebWalletLoginButton, WalletConnectLoginButton } from '@multiversx/sdk-dapp/UI';
-import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/hooks/account/useGetIsLoggedIn';
-import { logout } from '@multiversx/sdk-dapp/utils';
+import { useGetIsLoggedIn } from '@multiversx/sdk-dapp/out/react/account/useGetIsLoggedIn';
+import { getAccountProvider } from '@multiversx/sdk-dapp/out/providers';
+import { UnlockPanelManager } from '@multiversx/sdk-dapp/out/managers/UnlockPanelManager';
 import './ConnectButton.css';
 
 export function ConnectButton() {
   const navigate = useNavigate();
   const isLoggedIn = useGetIsLoggedIn();
 
+  const handleConnect = () => {
+    const unlockPanelManager = UnlockPanelManager.init({
+      loginHandler: () => {
+        navigate('/dashboard');
+      },
+      onClose: () => {}
+    });
+
+    unlockPanelManager.openUnlockPanel();
+  };
+
   const handleLogout = async () => {
     try {
-      await logout();
+      const provider = getAccountProvider();
+      if (provider && typeof provider.logout === 'function') {
+        await provider.logout();
+      }
       navigate('/');
     } catch (error) {
       console.error('Logout error:', error);
     }
-  };
-
-  const commonProps = {
-    callbackRoute: '/dashboard',
-    nativeAuth: true,
   };
 
   if (isLoggedIn) {
@@ -31,19 +40,8 @@ export function ConnectButton() {
   }
 
   return (
-    <div className="wallet-buttons">
-      <ExtensionLoginButton
-        loginButtonText="DeFi Wallet"
-        {...commonProps}
-      />
-      <WebWalletLoginButton
-        loginButtonText="Web Wallet"
-        {...commonProps}
-      />
-      <WalletConnectLoginButton
-        loginButtonText="xPortal"
-        {...commonProps}
-      />
-    </div>
+    <button className="connect-button" onClick={handleConnect}>
+      Connect Wallet
+    </button>
   );
 }
