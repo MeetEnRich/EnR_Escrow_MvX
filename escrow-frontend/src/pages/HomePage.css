@@ -115,6 +115,10 @@
 }
 
 @media (max-width: 900px) {
+  .home-page {
+    padding: 0 20px;
+    margin-top: 60px;
+  }
   .hero { grid-template-columns: 1fr; text-align: center; }
   .hero-visual { display: none; }
   .hero-login-buttons { justify-content: center; }
