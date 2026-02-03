@@ -1,0 +1,135 @@
+.tokens-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.tokens-modal {
+  background: #0f1f35;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  width: 90%;
+  max-width: 420px;
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.2s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-header h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+.close-btn:hover {
+  color: #fff;
+}
+
+.address-display {
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.explorer-link {
+  color: #23f7dd;
+  font-family: inherit;
+  font-size: 0.75rem;
+}
+
+.tokens-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 20px;
+}
+
+.loading, .error, .empty {
+  text-align: center;
+  padding: 24px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.9rem;
+}
+
+.error {
+  color: #ff6b6b;
+}
+
+.token-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.token-row:last-child {
+  border-bottom: none;
+}
+
+.token-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.token-name {
+  font-weight: 500;
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.token-id {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-family: monospace;
+}
+
+.token-balance {
+  font-weight: 600;
+  color: #23f7dd;
+  font-size: 1rem;
+}

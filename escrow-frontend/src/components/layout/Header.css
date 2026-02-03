@@ -1,0 +1,126 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: rgba(10, 22, 40, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.logo-icon {
+  font-size: 1.5rem;
+}
+
+.logo-text {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.nav {
+  display: flex;
+  gap: 24px;
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: #23f7dd;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.wallet-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.balance {
+  font-weight: 600;
+  color: #23f7dd;
+}
+
+.address-btn {
+  font-family: monospace;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.1);
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.address-btn:hover {
+  border-color: #23f7dd;
+  color: #23f7dd;
+}
+
+.logout-btn {
+  padding: 8px 16px;
+  background: rgba(255, 107, 107, 0.2);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  border-radius: 8px;
+  color: #ff6b6b;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logout-btn:hover {
+  background: rgba(255, 107, 107, 0.3);
+}
+
+.connect-btn {
+  background: linear-gradient(135deg, #23f7dd 0%, #1dc5ae 100%);
+  color: #0a1628;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.connect-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(35, 247, 221, 0.4);
+}
+
+@media (max-width: 768px) {
+  .wallet-info .balance,
+  .wallet-info .address-btn {
+    display: none;
+  }
+}

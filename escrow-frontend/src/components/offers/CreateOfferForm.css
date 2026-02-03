@@ -1,0 +1,124 @@
+.create-offer-form {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.create-offer-form h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.form-error {
+  background: rgba(255, 107, 107, 0.1);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  border-radius: 8px;
+  padding: 10px;
+  color: #ff6b6b;
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+}
+
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-section h3 {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 6px;
+}
+
+.compact-row {
+  display: grid;
+  grid-template-columns: 2fr 70px 1fr;
+  gap: 10px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.field label {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.5px;
+}
+
+.field input {
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  color: #fff;
+  font-size: 0.8rem;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: #23f7dd;
+}
+
+.field input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.nonce-field {
+  max-width: 70px;
+}
+
+.nonce-field input {
+  text-align: center;
+}
+
+.swap-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #23f7dd;
+  padding: 4px 0;
+}
+
+.swap-indicator svg {
+  width: 20px;
+  height: 20px;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background: linear-gradient(135deg, #23f7dd 0%, #1dc5ae 100%);
+  border: none;
+  border-radius: 8px;
+  color: #0a1628;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.submit-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(35, 247, 221, 0.4);
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .compact-row {
+    grid-template-columns: 1fr;
+  }
+  .nonce-field { max-width: none; }
+}
