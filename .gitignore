@@ -77,3 +77,5 @@ mx-ai-skills/
 !Cargo.toml
 !nest-cli.json
 !vercel.json
+!railway.json
+!escrow-services/src/contracts/*.json
