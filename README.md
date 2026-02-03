@@ -2,7 +2,7 @@
 
 A full-stack decentralized escrow application built on the MultiversX blockchain. This project demonstrates peer-to-peer token swaps using a secure smart contract, a NestJS backend service, and a React frontend.
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 EnR_Escrow_MvX/
@@ -46,7 +46,7 @@ React application featuring:
 
 **Tech Stack:** React 18, Vite, TypeScript, @multiversx/sdk-dapp v5
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -81,7 +81,7 @@ npm install
 npm run dev
 ```
 
-## ⚙️ Environment Variables
+## Environment Variables
 
 ### Backend (`escrow-services/.env`)
 
@@ -99,7 +99,7 @@ CONTRACT_ADDRESS=erd1qqqqqq...
 VITE_BACKEND_URL=http://localhost:3001
 ```
 
-## 🌐 Network
+## Network
 
 This project is configured for **MultiversX Devnet**.
 
@@ -107,16 +107,16 @@ This project is configured for **MultiversX Devnet**.
 - API: https://devnet-api.multiversx.com
 - Gateway: https://devnet-gateway.multiversx.com
 
-## 📚 Resources
+## Resources
 
 - [MultiversX Docs](https://docs.multiversx.com)
 - [SDK-Dapp Documentation](https://docs.multiversx.com/sdk-and-tools/sdk-dapp)
 - [Smart Contract Framework](https://docs.multiversx.com/developers/smart-contracts)
 
-## 👤 Author
+## Author
 
 **EnRich** - [@MeetEnRich](https://x.com/MeetEnRich)
 
-## 📄 License
+## License
 
 This project is for educational purposes as part of the EnRich Escrow Tutorial series.

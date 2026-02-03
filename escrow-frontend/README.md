@@ -1,73 +1,141 @@
-# React + TypeScript + Vite
+# Escrow dApp Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React-based decentralized application frontend for the MultiversX Escrow smart contract, enabling peer-to-peer token swaps with secure escrow functionality.
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This frontend allows users to:
 
-## React Compiler
+- **Create offers**: Propose token swaps by specifying offered tokens, desired tokens, and recipient addresses
+- **View offers**: Browse offers you've created or received
+- **Accept offers**: Fulfill received offers from other users
+- **Cancel offers**: Withdraw your pending offers
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- **React 18** with TypeScript
+- **Vite 5** for build tooling and HMR
+- **React Router 6** for client-side routing
+- **MultiversX SDK** (`@multiversx/sdk-core`, `@multiversx/sdk-dapp`, `@multiversx/sdk-dapp-ui`) for wallet integration and transaction signing
+- **BigNumber.js** for precise token amount calculations
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Project Structure
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── components/
+│   ├── guards/          # Route protection (AuthGuard)
+│   ├── layout/          # Header, Footer
+│   ├── offers/          # CreateOfferForm, OfferCard, OffersList
+│   └── wallet/          # ConnectButton, WalletInfo, TokensModal
+├── config/              # Environment and app configuration
+├── hooks/               # Custom hooks (useOffers)
+├── pages/               # HomePage, DashboardPage
+├── services/            # API client for backend communication
+├── types/               # TypeScript interfaces (Offer, TokenPayment)
+└── utils/               # Formatting utilities
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Getting Started
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Prerequisites
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Node.js >= 18
+- npm or yarn
+- MultiversX-compatible wallet (DeFi Wallet extension, xPortal, or Web Wallet)
+
+### Installation
+
+```bash
+cd escrow-frontend
+npm install
 ```
+
+### Environment Configuration
+
+Create a `.env` file or configure the existing one:
+
+```env
+# Backend API URL (NestJS escrow-services)
+VITE_BACKEND_URL=http://localhost:3001
+
+# Smart Contract Address
+VITE_ESCROW_CONTRACT=erd1...
+
+# Network Configuration
+VITE_CHAIN_ID=D
+VITE_API_URL=https://devnet-api.multiversx.com
+```
+
+### Development
+
+```bash
+npm run dev
+```
+
+The app will be available at `http://localhost:3000`.
+
+### Production Build
+
+```bash
+npm run build
+npm run preview
+```
+
+## Key Features
+
+### Wallet Integration
+
+Supports multiple wallet providers:
+
+- **DeFi Wallet Extension** - Browser extension
+- **xPortal** - Mobile wallet via WalletConnect
+- **Web Wallet** - MultiversX web-based wallet
+
+Login is handled via Native Authentication for secure session management.
+
+### Dashboard
+
+Protected route requiring wallet connection. Provides three tabs:
+
+1. **Create Offer** - Form to propose new token swaps
+2. **My Offers** - Offers you've created (with cancel option)
+3. **Received** - Offers sent to you (with accept option)
+
+### Token Support
+
+Pre-configured with common devnet tokens:
+
+- WEGLD-bd4d79 (Wrapped EGLD)
+- USDC-c76f1f (USD Coin)
+- MEX-455c57 (MEX Token)
+
+Custom token identifiers can be entered manually.
+
+## Scripts
+
+| Command           | Description                       |
+| ----------------- | --------------------------------- |
+| `npm run dev`     | Start development server with HMR |
+| `npm run build`   | Build for production              |
+| `npm run preview` | Preview production build          |
+| `npm run lint`    | Run ESLint                        |
+
+## Backend Integration
+
+The frontend communicates with the NestJS backend (`escrow-services`) via:
+
+- `GET /escrow/offers/created` - Fetch user's created offers
+- `GET /escrow/offers/received` - Fetch offers received by user
+- `POST /escrow/offers/create` - Build create-offer transaction
+- `POST /escrow/offers/confirm` - Build accept-offer transaction
+- `POST /escrow/offers/cancel` - Build cancel-offer transaction
+
+The backend returns unsigned transactions that are signed client-side using the connected wallet.
+
+## Network
+
+Currently configured for **MultiversX Devnet**. Network configuration is set in:
+
+- `src/main.tsx` - SDK initialization with `EnvironmentsEnum.devnet`
+- `src/config/index.ts` - API endpoints and chain ID
