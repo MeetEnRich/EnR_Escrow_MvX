@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: escrow-services
+    runtime: node
+    rootDir: escrow-services
+    buildCommand: yarn install && yarn build
+    startCommand: yarn start:prod
+    envVars:
+      - key: NODE_VERSION
+        value: 20.18.0
+      - key: ESCROW_CONTRACT_ADDRESS
+        sync: false
+      - key: API_ADDRESS
+        sync: false
+      - key: CHAIN_ID
+        sync: false
+      - key: NATIVE_AUTH_ACCEPTED_ORIGINS
+        sync: false
