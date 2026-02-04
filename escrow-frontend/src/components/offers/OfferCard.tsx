@@ -4,6 +4,8 @@ import { useGetLoginInfo } from '@multiversx/sdk-dapp/out/react/loginInfo/useGet
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/out/react/network/useGetNetworkConfig';
 import { useGetAccount } from '@multiversx/sdk-dapp/out/react/account/useGetAccount';
 import { TransactionManager } from '@multiversx/sdk-dapp/out/managers/TransactionManager';
+import { getAccountProvider } from '@multiversx/sdk-dapp/out/providers/helpers/accountProvider';
+import { refreshAccount } from '@multiversx/sdk-dapp/out/utils/account/refreshAccount';
 import './OfferCard.css';
 
 interface Offer {
@@ -60,6 +62,9 @@ export function OfferCard({ offer, type, currentAddress, onAction }: Props) {
       if (!response.ok) throw new Error('Request failed');
       
       const txData = await response.json();
+
+      // Refresh account to get latest nonce
+      await refreshAccount();
       
       const transaction = new Transaction({
         value: BigInt(txData.value || 0),
@@ -71,10 +76,20 @@ export function OfferCard({ offer, type, currentAddress, onAction }: Props) {
         nonce: BigInt(nonce),
       });
 
-      const transactionManager = TransactionManager.getInstance();
-      await transactionManager.send([transaction]);
+      // Sign transaction with wallet provider
+      const provider = getAccountProvider();
+      const signedTransactions = await provider.signTransactions([transaction]);
 
-      setTimeout(() => onAction?.(), 3000);
+      // Send signed transaction
+      const transactionManager = TransactionManager.getInstance();
+      await transactionManager.send(signedTransactions);
+
+      // Wait for transaction to be processed (polling for ~15 seconds)
+      for (let i = 0; i < 6; i++) {
+        await new Promise(r => setTimeout(r, 2500));
+        await refreshAccount(); // Update balance
+        await onAction?.();     // Update offers list
+      }
     } catch (err) {
       console.error(`Error ${action}ing offer:`, err);
     } finally {
@@ -86,19 +101,20 @@ export function OfferCard({ offer, type, currentAddress, onAction }: Props) {
     <div className="offer-card">
       <div className="offer-id">Offer #{offer.offerID}</div>
       
+      {/* For received offers, flip perspective - show what the viewer would give/get */}
       <div className="offer-details">
-        <div className="offer-side">
-          <span className="label">Offering</span>
-          <span className="token">{offer.offeredPayment.tokenIdentifier}</span>
-          <span className="amount">{formatAmount(offer.offeredPayment.amount)}</span>
+        <div className="offer-side offering">
+          <span className="label">{type === 'received' ? 'You Give' : 'Offering'}</span>
+          <span className="token">{type === 'received' ? offer.acceptedPayment.tokenIdentifier : offer.offeredPayment.tokenIdentifier}</span>
+          <span className="amount">{formatAmount(type === 'received' ? offer.acceptedPayment.amount : offer.offeredPayment.amount)}</span>
         </div>
         
         <div className="offer-arrow">→</div>
         
-        <div className="offer-side">
-          <span className="label">Receiving</span>
-          <span className="token">{offer.acceptedPayment.tokenIdentifier}</span>
-          <span className="amount">{formatAmount(offer.acceptedPayment.amount)}</span>
+        <div className="offer-side receiving">
+          <span className="label">{type === 'received' ? 'You Get' : 'Receiving'}</span>
+          <span className="token">{type === 'received' ? offer.offeredPayment.tokenIdentifier : offer.acceptedPayment.tokenIdentifier}</span>
+          <span className="amount">{formatAmount(type === 'received' ? offer.offeredPayment.amount : offer.acceptedPayment.amount)}</span>
         </div>
       </div>
 

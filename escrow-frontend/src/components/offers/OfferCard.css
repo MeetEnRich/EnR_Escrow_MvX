@@ -70,8 +70,12 @@
   color: #fff;
 }
 
-.token-box.giving .token-amount { color: #ff6b6b; }
-.token-box.receiving .token-amount { color: #4caf50; }
+.token-box.giving .token-amount {
+  color: #ff6b6b;
+}
+.token-box.receiving .token-amount {
+  color: #4caf50;
+}
 
 .token-id {
   display: block;
@@ -87,9 +91,73 @@
 }
 
 .offer-details {
+  display: flex;
+  align-items: center;
+  gap: 16px;
   margin-bottom: 16px;
   font-size: 0.85rem;
+}
+
+.offer-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+}
+
+.offer-side .label {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+}
+
+.offer-side .token {
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.offer-side .amount {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Subtle color accents for offering vs receiving */
+.offer-side.offering {
+  background: rgba(255, 107, 107, 0.08);
+  border: 1px solid rgba(255, 107, 107, 0.15);
+}
+
+.offer-side.offering .amount {
+  color: #ff8a8a;
+}
+
+.offer-side.receiving {
+  background: rgba(35, 247, 221, 0.08);
+  border: 1px solid rgba(35, 247, 221, 0.15);
+}
+
+.offer-side.receiving .amount {
+  color: #23f7dd;
+}
+
+.offer-arrow {
+  font-size: 1.25rem;
+  color: #23f7dd;
+}
+
+.offer-parties {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 0.8rem;
   color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 16px;
 }
 
 .offer-details p {

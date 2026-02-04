@@ -84,7 +84,7 @@ let OffersService = class OffersService {
             offer.acceptedAmount,
             offer.acceptedAddress,
         ]);
-        const transaction = (await this.transactionFactory.createTransactionForExecute(txProps.contract, {
+        const transaction = (await this.transactionFactory.createTransactionForExecute(txProps.sender, {
             contract: txProps.contract,
             gasLimit: txProps.gasLimit,
             function: txProps.function,
@@ -110,7 +110,7 @@ let OffersService = class OffersService {
         const txProps = this.createTransactionProps(address, 'acceptOffer', [
             offerId,
         ]);
-        const transaction = (await this.transactionFactory.createTransactionForExecute(txProps.contract, {
+        const transaction = (await this.transactionFactory.createTransactionForExecute(txProps.sender, {
             contract: txProps.contract,
             gasLimit: txProps.gasLimit,
             function: txProps.function,
@@ -123,7 +123,7 @@ let OffersService = class OffersService {
         const txProps = this.createTransactionProps(address, 'cancelOffer', [
             offerId,
         ]);
-        const transaction = (await this.transactionFactory.createTransactionForExecute(txProps.contract, {
+        const transaction = (await this.transactionFactory.createTransactionForExecute(txProps.sender, {
             contract: txProps.contract,
             gasLimit: txProps.gasLimit,
             function: txProps.function,

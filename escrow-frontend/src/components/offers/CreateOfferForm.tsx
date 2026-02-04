@@ -4,6 +4,8 @@ import { useGetAccount } from '@multiversx/sdk-dapp/out/react/account/useGetAcco
 import { useGetLoginInfo } from '@multiversx/sdk-dapp/out/react/loginInfo/useGetLoginInfo';
 import { useGetNetworkConfig } from '@multiversx/sdk-dapp/out/react/network/useGetNetworkConfig';
 import { TransactionManager } from '@multiversx/sdk-dapp/out/managers/TransactionManager';
+import { getAccountProvider } from '@multiversx/sdk-dapp/out/providers/helpers/accountProvider';
+import { refreshAccount } from '@multiversx/sdk-dapp/out/utils/account/refreshAccount';
 import './CreateOfferForm.css';
 
 interface Props {
@@ -16,10 +18,10 @@ export function CreateOfferForm({ onSuccess }: Props) {
   const { network } = useGetNetworkConfig();
 
   const [formData, setFormData] = useState({
-    offeredToken: 'WEGLD-bd4d79',
+    offeredToken: 'USDC-3770a9',
     offeredNonce: '0',
     offeredAmount: '',
-    acceptedToken: 'USDC-c76f1f',
+    acceptedToken: 'WEGLD-a28c59',
     acceptedNonce: '0',
     acceptedAmount: '',
     acceptedAddress: '',
@@ -75,6 +77,9 @@ export function CreateOfferForm({ onSuccess }: Props) {
       const txData = await response.json();
       console.log('Transaction from backend:', txData);
 
+      // Refresh account to get latest nonce
+      await refreshAccount();
+
       const transaction = new Transaction({
         value: BigInt(txData.value || 0),
         receiver: Address.newFromBech32(txData.receiver),
@@ -85,20 +90,32 @@ export function CreateOfferForm({ onSuccess }: Props) {
         nonce: BigInt(nonce),
       });
 
+      // Sign transaction with wallet provider
+      const provider = getAccountProvider();
+      const signedTransactions = await provider.signTransactions([transaction]);
+
+      // Send signed transaction
       const transactionManager = TransactionManager.getInstance();
-      await transactionManager.send([transaction]);
+      await transactionManager.send(signedTransactions);
 
       setFormData({
-        offeredToken: 'WEGLD-bd4d79',
+        offeredToken: 'USDC-3770a9',
         offeredNonce: '0',
         offeredAmount: '',
-        acceptedToken: 'USDC-c76f1f',
+        acceptedToken: 'WEGLD-a28c59',
         acceptedNonce: '0',
         acceptedAmount: '',
         acceptedAddress: '',
       });
 
-      setTimeout(() => onSuccess?.(), 3000);
+      setTimeout(async () => {
+        // Poll for updates (15s)
+        for(let i=0; i<6; i++) {
+          await new Promise(r => setTimeout(r, 2500));
+          await refreshAccount();
+          onSuccess?.(); 
+        }
+      }, 500);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to create offer');
     } finally {
