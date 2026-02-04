@@ -68,7 +68,7 @@ export class OffersService {
 
     const transaction = (
       await this.transactionFactory.createTransactionForExecute(
-        txProps.contract,
+        txProps.sender,
         {
           contract: txProps.contract,
           gasLimit: txProps.gasLimit,
@@ -105,7 +105,7 @@ export class OffersService {
     ]);
     const transaction = (
       await this.transactionFactory.createTransactionForExecute(
-        txProps.contract,
+        txProps.sender,
         {
           contract: txProps.contract,
           gasLimit: txProps.gasLimit,
@@ -126,7 +126,7 @@ export class OffersService {
 
     const transaction = (
       await this.transactionFactory.createTransactionForExecute(
-        txProps.contract,
+        txProps.sender,
         {
           contract: txProps.contract,
           gasLimit: txProps.gasLimit,
