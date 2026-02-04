@@ -2,6 +2,12 @@
 
 A full-stack decentralized escrow application built on the MultiversX blockchain. This project demonstrates peer-to-peer token swaps using a secure smart contract, a NestJS backend service, and a React frontend.
 
+## Live Deployments
+
+- **Frontend (DApp):** Deployed using **Vercel**. (URL: https://enrich-escrow.vercel.app/)
+- **Backend (API):** Deployed using **Render**. (URL: https://enr-escrow-mvx.onrender.com)
+- **Smart Contract (Devnet):** Deployed on **MultiversX Devnet**. [View on Explorer](https://devnet-explorer.multiversx.com/accounts/erd1qqqqqqqqqqqqqpgqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq)
+
 ## Project Structure
 
 ```
