@@ -135,7 +135,7 @@ let OffersService = class OffersService {
         return {
             sender: out_1.Address.newFromBech32(address),
             contract: out_1.Address.newFromBech32(this.escrowConfigService.getEscrowSCAddress()),
-            gasLimit: 20000000n,
+            gasLimit: 60000000n,
             function: functionName,
             arguments: args,
         };

@@ -62,15 +62,20 @@ export function OfferCard({ offer, type, currentAddress, onAction }: Props) {
       if (!response.ok) throw new Error('Request failed');
       
       const txData = await response.json();
+      console.log('Transaction Data from backend:', txData);
 
       // Refresh account to get latest nonce
-      await refreshAccount();
+      try {
+        await refreshAccount();
+      } catch (error) {
+        console.warn('Failed to refresh account, proceeding with current nonce:', error);
+      }
       
       const transaction = new Transaction({
         value: BigInt(txData.value || 0),
         receiver: Address.newFromBech32(txData.receiver),
         sender: Address.newFromBech32(currentAddress),
-        gasLimit: BigInt(Number(txData.gasLimit) || 20000000),
+        gasLimit: BigInt(Number(txData.gasLimit) || 60000000),
         data: txData.data ? new Uint8Array(atob(txData.data).split('').map(c => c.charCodeAt(0))) : undefined,
         chainID: network.chainId,
         nonce: BigInt(nonce),

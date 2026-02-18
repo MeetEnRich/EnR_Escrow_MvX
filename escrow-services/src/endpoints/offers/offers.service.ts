@@ -149,7 +149,7 @@ export class OffersService {
       contract: Address.newFromBech32(
         this.escrowConfigService.getEscrowSCAddress(),
       ),
-      gasLimit: 20_000_000n,
+      gasLimit: 60_000_000n,
       function: functionName,
       arguments: args,
     };
