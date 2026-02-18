@@ -6,6 +6,8 @@ import { useGetNetworkConfig } from '@multiversx/sdk-dapp/out/react/network/useG
 import { TransactionManager } from '@multiversx/sdk-dapp/out/managers/TransactionManager';
 import { getAccountProvider } from '@multiversx/sdk-dapp/out/providers/helpers/accountProvider';
 import { refreshAccount } from '@multiversx/sdk-dapp/out/utils/account/refreshAccount';
+import { toast } from 'react-toastify';
+import { TransactionToast } from '../common/TransactionToast';
 import './CreateOfferForm.css';
 
 interface Props {
@@ -46,6 +48,7 @@ export function CreateOfferForm({ onSuccess }: Props) {
     if (!formData.acceptedAddress || !formData.acceptedAddress.startsWith('erd1')) { setError('Enter valid recipient address'); return; }
 
     setIsSubmitting(true);
+    const toastId = toast.loading('Initializing offer creation...');
 
     try {
       const baseUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001';
@@ -91,12 +94,16 @@ export function CreateOfferForm({ onSuccess }: Props) {
       });
 
       // Sign transaction with wallet provider
+      toast.update(toastId, { render: 'Please sign the transaction in your wallet...', isLoading: true });
       const provider = getAccountProvider();
       const signedTransactions = await provider.signTransactions([transaction]);
-
       // Send signed transaction
+      toast.update(toastId, { render: 'Broadcasting transaction...', isLoading: true });
       const transactionManager = TransactionManager.getInstance();
-      await transactionManager.send(signedTransactions);
+      const sendResult = await transactionManager.send(signedTransactions);
+      const txHash = (Array.isArray(sendResult[0]) ? sendResult[0][0] : sendResult[0]).hash;
+
+      toast.update(toastId, { render: 'Offer submitted! Waiting for confirmation...', isLoading: true });
 
       setFormData({
         offeredToken: 'USDC-3770a9',
@@ -115,9 +122,18 @@ export function CreateOfferForm({ onSuccess }: Props) {
           await refreshAccount();
           onSuccess?.(); 
         }
+        
+        toast.update(toastId, { 
+          render: <TransactionToast title="Offer created successfully!" txHash={txHash} />, 
+          type: 'success', 
+          isLoading: false, 
+          autoClose: 10000 
+        });
       }, 500);
+
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to create offer');
+      toast.update(toastId, { render: `Transaction failed: ${err instanceof Error ? err.message : 'Unknown error'}`, type: 'error', isLoading: false, autoClose: 5000 });
     } finally {
       setIsSubmitting(false);
     }

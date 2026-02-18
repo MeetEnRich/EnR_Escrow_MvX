@@ -1,0 +1,58 @@
+.transaction-toast-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.toast-title {
+  font-weight: 600;
+  font-size: 1.1em;
+}
+
+.toast-hash-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+.hash-label {
+  color: #aaa;
+}
+
+.hash-value {
+  color: #fff;
+}
+
+.copy-btn {
+  background: none;
+  border: none;
+  color: #4cd6ef;
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.copy-btn:hover {
+  color: #fff;
+}
+
+.explorer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #4cd6ef;
+  text-decoration: none;
+  font-size: 0.9em;
+  width: fit-content;
+}
+
+.explorer-link:hover {
+  text-decoration: underline;
+}

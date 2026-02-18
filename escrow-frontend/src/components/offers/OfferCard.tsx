@@ -6,6 +6,8 @@ import { useGetAccount } from '@multiversx/sdk-dapp/out/react/account/useGetAcco
 import { TransactionManager } from '@multiversx/sdk-dapp/out/managers/TransactionManager';
 import { getAccountProvider } from '@multiversx/sdk-dapp/out/providers/helpers/accountProvider';
 import { refreshAccount } from '@multiversx/sdk-dapp/out/utils/account/refreshAccount';
+import { toast } from 'react-toastify';
+import { TransactionToast } from '../common/TransactionToast';
 import './OfferCard.css';
 
 interface Offer {
@@ -46,6 +48,8 @@ export function OfferCard({ offer, type, currentAddress, onAction }: Props) {
     if (!tokenLogin?.nativeAuthToken) return;
     
     setLoading(true);
+    const toastId = toast.loading('Initializing transaction...');
+
     try {
       const baseUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001';
       const endpoint = action === 'cancel' ? 'cancel' : 'confirm';
@@ -75,19 +79,23 @@ export function OfferCard({ offer, type, currentAddress, onAction }: Props) {
         value: BigInt(txData.value || 0),
         receiver: Address.newFromBech32(txData.receiver),
         sender: Address.newFromBech32(currentAddress),
-        gasLimit: BigInt(Number(txData.gasLimit) || 60000000),
+        gasLimit: BigInt(Number(txData.gasLimit) || 20000000),
         data: txData.data ? new Uint8Array(atob(txData.data).split('').map(c => c.charCodeAt(0))) : undefined,
         chainID: network.chainId,
         nonce: BigInt(nonce),
       });
 
       // Sign transaction with wallet provider
+      toast.update(toastId, { render: 'Please sign the transaction in your wallet...', isLoading: true });
       const provider = getAccountProvider();
       const signedTransactions = await provider.signTransactions([transaction]);
-
       // Send signed transaction
+      toast.update(toastId, { render: 'Broadcasting transaction...', isLoading: true });
       const transactionManager = TransactionManager.getInstance();
-      await transactionManager.send(signedTransactions);
+      const sendResult = await transactionManager.send(signedTransactions);
+      const txHash = (Array.isArray(sendResult[0]) ? sendResult[0][0] : sendResult[0]).hash;
+
+      toast.update(toastId, { render: 'Transaction submitted! Waiting for confirmation...', isLoading: true });
 
       // Wait for transaction to be processed (polling for ~15 seconds)
       for (let i = 0; i < 6; i++) {
@@ -95,8 +103,17 @@ export function OfferCard({ offer, type, currentAddress, onAction }: Props) {
         await refreshAccount(); // Update balance
         await onAction?.();     // Update offers list
       }
+
+      toast.update(toastId, { 
+        render: <TransactionToast title={`${action === 'accept' ? 'Offer accepted' : 'Offer cancelled'} successfully!`} txHash={txHash} />,
+        type: 'success', 
+        isLoading: false, 
+        autoClose: 10000 
+      });
+
     } catch (err) {
       console.error(`Error ${action}ing offer:`, err);
+      toast.update(toastId, { render: `Transaction failed: ${err instanceof Error ? err.message : 'Unknown error'}`, type: 'error', isLoading: false, autoClose: 5000 });
     } finally {
       setLoading(false);
     }
