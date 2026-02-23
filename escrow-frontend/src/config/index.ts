@@ -17,7 +17,7 @@ export const config = {
   
   // Common devnet tokens for the dropdown
   commonTokens: [
-    { identifier: 'WEGLD-bd4d79', name: 'Wrapped EGLD', decimals: 18 },
+    { identifier: 'WEGLD-bd4d79', name: 'Wrapped xEGLD', decimals: 18 },
     { identifier: 'USDC-c76f1f', name: 'USD Coin', decimals: 6 },
     { identifier: 'MEX-455c57', name: 'MEX Token', decimals: 18 },
   ],

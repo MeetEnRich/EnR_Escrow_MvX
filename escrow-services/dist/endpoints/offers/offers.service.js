@@ -158,16 +158,9 @@ let OffersService = class OffersService {
             if (!parsedResponse || parsedResponse.length === 0) {
                 return [];
             }
-            const [offersPair] = parsedResponse;
-            if (!offersPair) {
-                return [];
-            }
-            const rawOffers = offersPair.valueOf();
-            if (!Array.isArray(rawOffers)) {
-                return [];
-            }
-            const offers = rawOffers.map((offersPair) => {
-                return offer_entity_1.Offer.fromResponse(offersPair);
+            const offers = parsedResponse.map((typedValue) => {
+                const pair = typedValue.valueOf();
+                return offer_entity_1.Offer.fromResponse(pair);
             });
             return offers;
         }

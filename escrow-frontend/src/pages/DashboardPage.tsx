@@ -43,9 +43,10 @@ export function DashboardPage() {
         'Content-Type': 'application/json',
       };
 
+      const timestamp = Date.now();
       const [createdRes, receivedRes] = await Promise.all([
-        fetch(`${baseUrl}/escrow/offers/created`, { headers }),
-        fetch(`${baseUrl}/escrow/offers/received`, { headers }),
+        fetch(`${baseUrl}/escrow/offers/created?t=${timestamp}`, { headers }),
+        fetch(`${baseUrl}/escrow/offers/received?t=${timestamp}`, { headers }),
       ]);
 
       if (createdRes.ok) {

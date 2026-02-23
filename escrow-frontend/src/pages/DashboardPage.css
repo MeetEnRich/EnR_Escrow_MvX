@@ -1,5 +1,5 @@
 .dashboard-page {
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 80px 48px 24px;
 }
@@ -46,7 +46,8 @@
   padding: 10px 16px;
   background: transparent;
   border: none;
-  border-radius: 8px;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
   color: rgba(255, 255, 255, 0.6);
   font-size: 0.85rem;
   font-weight: 500;
@@ -59,7 +60,7 @@
 }
 
 .tab:hover { color: #fff; background: rgba(255, 255, 255, 0.05); }
-.tab.active { background: rgba(35, 247, 221, 0.15); color: #23f7dd; }
+.tab.active { background: transparent; color: #23f7dd; border-bottom-color: #23f7dd; }
 
 .badge {
   background: rgba(255, 255, 255, 0.2);
@@ -120,6 +121,23 @@
 }
 
 @media (max-width: 768px) {
-  .dashboard-tabs { flex-direction: column; }
-  .tab { justify-content: flex-start; }
+  .dashboard-page {
+    padding: 80px 16px 24px;
+  }
+
+  .dashboard-tabs { 
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 8px;
+    padding: 8px;
+    justify-content: center;
+  }
+  
+  .tab { 
+    white-space: nowrap;
+    flex: 0 0 auto;
+    font-size: 0.8rem;
+    padding: 8px 12px;
+  }
 }

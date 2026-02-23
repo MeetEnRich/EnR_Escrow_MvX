@@ -177,32 +177,20 @@ export class OffersService {
       });
 
       const response = await this.smartContractController.runQuery(query);
+      
       const parsedResponse =
         this.smartContractController.parseQueryResponse(response);
 
       if (!parsedResponse || parsedResponse.length === 0) {
         return [];
       }
-
-      const [offersPair] = parsedResponse;
-
-      if (!offersPair) {
-        return [];
-      }
-
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-      const rawOffers = offersPair.valueOf();
-
-      if (!Array.isArray(rawOffers)) {
-        return [];
-      }
-
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-      const offers: Offer[] = rawOffers.map(
-        (offersPair: [BigNumber, OfferSCResponseDto]) => {
-          return Offer.fromResponse(offersPair);
-        },
-      );
+      // parsedResponse is an array of TypedValues (because of 'variadic' in ABI)
+      // We map over each TypedValue to extract the [OfferId, Offer] pair
+      const offers: Offer[] = parsedResponse.map((typedValue) => {
+        // valueOf() returns the native JS structure: [BigNumber, OfferSCResponseDto]
+        const pair = typedValue.valueOf() as [BigNumber, OfferSCResponseDto];
+        return Offer.fromResponse(pair);
+      });
 
       return offers;
     } catch (error) {

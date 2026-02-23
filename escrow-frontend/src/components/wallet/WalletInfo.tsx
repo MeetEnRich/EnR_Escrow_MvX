@@ -19,7 +19,7 @@ export function WalletInfo() {
       </div>
       <div className="wallet-balance">
         <span className="label">Balance:</span>
-        <span className="value">{formatAmount(balance || '0', 18)} EGLD</span>
+        <span className="value">{formatAmount(balance || '0', 18)} xEGLD</span>
       </div>
     </div>
   );

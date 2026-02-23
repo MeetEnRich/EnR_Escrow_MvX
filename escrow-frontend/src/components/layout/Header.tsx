@@ -57,16 +57,20 @@ export function Header() {
           <div className="header-right">
             {isLoggedIn ? (
               <div className="wallet-info">
-                <span className="balance">{formatBalance(balance)} EGLD</span>
-                <button 
-                  className="address-btn" 
-                  onClick={() => setShowTokensModal(true)}
-                  title="View token holdings"
-                >
-                  {shortenAddress(address)}
-                </button>
-                <button className="logout-btn" onClick={handleLogout}>
-                  Disconnect
+                <div className="wallet-details">
+                  <button 
+                    className="address-btn" 
+                    onClick={() => setShowTokensModal(true)}
+                    title="View assets"
+                  >
+                    {shortenAddress(address)}
+                  </button>
+                </div>
+                <button className="logout-btn icon-only" onClick={handleLogout} title="Disconnect">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+                    <line x1="12" y1="2" x2="12" y2="12"></line>
+                  </svg>
                 </button>
               </div>
             ) : (
@@ -81,6 +85,7 @@ export function Header() {
       {showTokensModal && (
         <TokensModal 
           address={address} 
+          nativeBalance={balance}
           onClose={() => setShowTokensModal(false)} 
         />
       )}

@@ -11,10 +11,11 @@ interface Token {
 
 interface Props {
   address: string;
+  nativeBalance: string;
   onClose: () => void;
 }
 
-export function TokensModal({ address, onClose }: Props) {
+export function TokensModal({ address, nativeBalance, onClose }: Props) {
   const [tokens, setTokens] = useState<Token[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -54,8 +55,18 @@ export function TokensModal({ address, onClose }: Props) {
     <div className="tokens-modal-backdrop" onClick={handleBackdropClick}>
       <div className="tokens-modal">
         <div className="modal-header">
-          <h2>Token Holdings</h2>
+          <h2>Wallet Assets</h2>
           <button className="close-btn" onClick={onClose}>×</button>
+        </div>
+
+        <div className="native-balance-section">
+            <div className="token-info">
+                <span className="token-name">MultiversX</span>
+                <span className="token-id">xEGLD</span>
+            </div>
+            <div className="token-balance highlight">
+                {formatBalance(nativeBalance, 18)}
+            </div>
         </div>
 
         <div className="address-display">

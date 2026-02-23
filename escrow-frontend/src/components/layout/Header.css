@@ -88,17 +88,18 @@
 
 .logout-btn {
   padding: 8px 16px;
-  background: rgba(255, 107, 107, 0.2);
-  border: 1px solid rgba(255, 107, 107, 0.3);
+  background: transparent;
+  border: none;
   border-radius: 8px;
-  color: #ff6b6b;
+  color: rgba(255, 107, 107, 0.8);
   font-size: 0.875rem;
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .logout-btn:hover {
-  background: rgba(255, 107, 107, 0.3);
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.1);
 }
 
 .connect-btn {
@@ -118,9 +119,39 @@
   box-shadow: 0 6px 20px rgba(35, 247, 221, 0.4);
 }
 
+.wallet-details {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logout-btn.icon-only {
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media (max-width: 768px) {
-  .wallet-info .balance,
-  .wallet-info .address-btn {
-    display: none;
+  .header-content {
+    padding: 0 20px;
+  }
+
+  .logo-text {
+    font-size: 1.1rem; /* Slightly smaller for mobile */
+    display: block;
+  }
+
+  .wallet-info {
+    gap: 8px;
+  }
+
+  .balance {
+    font-size: 0.85rem;
+  }
+
+  .address-btn {
+    padding: 4px 8px;
+    font-size: 0.75rem;
   }
 }
